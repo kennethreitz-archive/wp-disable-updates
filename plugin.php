@@ -12,8 +12,18 @@ License: MIT License - http://www.opensource.org/licenses/mit-license.php
 */
 
 // No Upgrades to WordPress Core
+
+# 2.3 to 2.7:
 add_action( 'init', create_function( '$a', "remove_action( 'init', 'wp_version_check' );" ), 2 );
 add_filter( 'pre_option_update_core', create_function( '$a', "return null;" ) );
+
+# 2.8 to 3.0:
+remove_action( 'wp_version_check', 'wp_version_check' );
+remove_action( 'admin_init', '_maybe_update_core' );
+add_filter( 'pre_transient_update_core', create_function( '$a', "return null;" ) );
+
+# 3.0:
+add_filter( 'pre_site_transient_update_core', create_function( '$a', "return null;" ) );
 
 // Disable Plugin Update Check
 remove_action( 'load-plugins.php', 'wp_update_plugins' );
